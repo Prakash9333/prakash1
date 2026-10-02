@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>PRAKASH 3D ADVENTURE | Futuristic 3D Runner</title>
+    <meta name="description" content="PRAKASH 3D ADVENTURE - An exciting, futuristic 3D endless runner game featuring Prakash!">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- 3D Canvas Container -->
+    <div id="game-container"></div>
+
+    <!-- UI Overlay Layer -->
+    <div id="ui-overlay">
+
+        <!-- ================= START / MAIN MENU SCREEN ================= -->
+        <div id="start-screen" class="screen active">
+            <div class="cyber-background-grid"></div>
+            
+            <div class="menu-container">
+                <!-- Glowing Game Logo / Title -->
+                <div class="title-wrapper">
+                    <div class="cyber-badge">OFFICIAL 3D GAME</div>
+                    <h1 class="main-title">
+                        <span class="neon-name">PRAKASH</span>
+                        <span class="neon-subtitle">3D ADVENTURE</span>
+                    </h1>
+                    <p class="tagline">CYBERPUNK ENDLESS RUNNER • COLLECT DIAMONDS • SURVIVE THE HIGHWAY</p>
+                </div>
+
+                <!-- Featured Personal Photos Showcase -->
+                <div class="hero-showcase">
+                    <div class="showcase-title">FEATURING HERO PILOT</div>
+                    <div class="photo-cards-wrapper">
+                        <!-- Photo Card 1 -->
+                        <div class="photo-card active" id="card-photo-1" data-photo="1">
+                            <div class="photo-frame">
+                                <div class="cyber-corner tl"></div>
+                                <div class="cyber-corner tr"></div>
+                                <div class="cyber-corner bl"></div>
+                                <div class="cyber-corner br"></div>
+                                <img src="assets/prakash1.jpg" alt="Prakash - Bridge Explorer" class="prakash-portrait" id="img-menu-1" onerror="if(window.PRAKASH_PHOTOS)this.src=window.PRAKASH_PHOTOS.photo1">
+                                <div class="photo-hologram-glow"></div>
+                            </div>
+                            <div class="photo-meta">
+                                <span class="photo-badge">PILOT 1</span>
+                                <span class="photo-hero-name">PRAKASH</span>
+                                <span class="photo-title-sub">Bridge Explorer</span>
+                            </div>
+                        </div>
+
+                        <!-- Photo Card 2 -->
+                        <div class="photo-card" id="card-photo-2" data-photo="2">
+                            <div class="photo-frame">
+                                <div class="cyber-corner tl"></div>
+                                <div class="cyber-corner tr"></div>
+                                <div class="cyber-corner bl"></div>
+                                <div class="cyber-corner br"></div>
+                                <img src="assets/prakash2.jpg" alt="Prakash - Skyline Master" class="prakash-portrait" id="img-menu-2" onerror="if(window.PRAKASH_PHOTOS)this.src=window.PRAKASH_PHOTOS.photo2">
+                                <div class="photo-hologram-glow"></div>
+                            </div>
+                            <div class="photo-meta">
+                                <span class="photo-badge">PILOT 2</span>
+                                <span class="photo-hero-name">PRAKASH</span>
+                                <span class="photo-title-sub">Skyline Master</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pilot-select-hint">Click a portrait to choose your favorite Prakash billboard theme!</div>
+                </div>
+
+                <!-- Menu Stats & Actions -->
+                <div class="menu-actions">
+                    <!-- Speed Mode Selector -->
+                    <div class="speed-selector-wrapper">
+                        <span class="speed-selector-label">GAME SPEED</span>
+                        <div class="speed-buttons">
+                            <button type="button" class="btn-speed active" data-speed="slow" id="speed-slow">🐢 SLOW (EASY)</button>
+                            <button type="button" class="btn-speed" data-speed="normal" id="speed-normal">⚡ NORMAL</button>
+                            <button type="button" class="btn-speed" data-speed="fast" id="speed-fast">🚀 FAST</button>
+                        </div>
+                    </div>
+
+                    <button id="btn-start" class="btn-cyber btn-primary">
+                        <span class="btn-icon">⚡</span>
+                        <span class="btn-text">START ADVENTURE</span>
+                        <span class="btn-flare"></span>
+                    </button>
+
+                    <div class="secondary-buttons">
+                        <button id="btn-how-to-play" class="btn-cyber btn-secondary">
+                            <span>🎮 HOW TO PLAY</span>
+                        </button>
+                        <button id="btn-sound-start" class="btn-cyber btn-icon-only" title="Toggle Sound">
+                            <span id="sound-icon-start">🔊</span>
+                        </button>
+                    </div>
+
+                    <!-- High Score Banner -->
+                    <div class="high-score-banner">
+                        <span class="trophy-icon">🏆</span>
+                        <span class="hs-label">ALL-TIME HIGH SCORE:</span>
+                        <span id="menu-high-score" class="hs-value">0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= IN-GAME HUD ================= -->
+        <div id="hud" class="hud-layer hidden">
+            <!-- Top Left: Hero Prakash Avatar -->
+            <div class="hud-top-left">
+                <div class="hud-avatar-box">
+                    <div class="avatar-ring">
+                        <img src="assets/prakash1.jpg" alt="Prakash" id="hud-avatar-img" onerror="if(window.PRAKASH_PHOTOS)this.src=window.PRAKASH_PHOTOS.photo1">
+                    </div>
+                    <div class="avatar-info">
+                        <span class="pilot-label">HERO PILOT</span>
+                        <span class="pilot-name">PRAKASH</span>
+                        <span class="status-live"><span class="live-dot"></span> RUNNING</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Top Center: Score & Multiplier -->
+            <div class="hud-top-center">
+                <div class="score-display">
+                    <span class="score-label">SCORE</span>
+                    <span id="hud-score" class="score-number">0</span>
+                </div>
+                <div class="multiplier-display">
+                    <span id="hud-multiplier" class="multiplier-number">1x</span>
+                </div>
+            </div>
+
+            <!-- Top Right: Diamonds, Sound, Pause -->
+            <div class="hud-top-right">
+                <div class="hud-diamond-box">
+                    <span class="diamond-icon">💎</span>
+                    <span id="hud-diamonds" class="diamond-number">0</span>
+                </div>
+                <button id="btn-sound-hud" class="hud-ctrl-btn" title="Toggle Sound">
+                    <span id="sound-icon-hud">🔊</span>
+                </button>
+                <button id="btn-pause" class="hud-ctrl-btn" title="Pause Game (ESC)">
+                    <span>⏸️</span>
+                </button>
+            </div>
+
+            <!-- Active Power-up Progress Area -->
+            <div id="powerup-hud" class="powerup-hud-container hidden">
+                <div class="powerup-badge">
+                    <span id="powerup-icon">🧲</span>
+                    <span id="powerup-name">MAGNET ACTIVE</span>
+                </div>
+                <div class="powerup-meter">
+                    <div id="powerup-meter-fill" class="meter-bar"></div>
+                </div>
+            </div>
+
+            <!-- In-game Notification / Toast -->
+            <div id="hud-toast" class="hud-toast hidden"></div>
+        </div>
+
+        <!-- ================= PAUSE MODAL ================= -->
+        <div id="pause-screen" class="screen modal hidden">
+            <div class="modal-box">
+                <div class="cyber-corner tl"></div>
+                <div class="cyber-corner tr"></div>
+                <div class="cyber-corner bl"></div>
+                <div class="cyber-corner br"></div>
+                
+                <h2 class="modal-title">GAME PAUSED</h2>
+                <div class="pause-stats">
+                    <div class="pause-stat-item">
+                        <span class="stat-title">CURRENT SCORE</span>
+                        <span id="pause-score" class="stat-number">0</span>
+                    </div>
+                    <div class="pause-stat-item">
+                        <span class="stat-title">DIAMONDS</span>
+                        <span id="pause-diamonds" class="stat-number">0</span>
+                    </div>
+                </div>
+
+                <div class="modal-buttons">
+                    <button id="btn-resume" class="btn-cyber btn-primary">
+                        <span>▶ RESUME</span>
+                    </button>
+                    <button id="btn-restart-pause" class="btn-cyber btn-secondary">
+                        <span>🔄 RESTART</span>
+                    </button>
+                    <button id="btn-menu-pause" class="btn-cyber btn-secondary">
+                        <span>🏠 MAIN MENU</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= GAME OVER SCREEN ================= -->
+        <div id="gameover-screen" class="screen modal hidden">
+            <div class="modal-box gameover-box">
+                <div class="cyber-corner tl"></div>
+                <div class="cyber-corner tr"></div>
+                <div class="cyber-corner bl"></div>
+                <div class="cyber-corner br"></div>
+
+                <div id="gameover-header-badge" class="gameover-badge">RUN COMPLETED</div>
+                <h2 class="gameover-title">GAME OVER</h2>
+                
+                <!-- Prakash Hero Spotlight on Game Over -->
+                <div class="gameover-hero-card">
+                    <div class="gameover-photo-frame">
+                        <img src="assets/prakash1.jpg" alt="Prakash" id="gameover-avatar-img" onerror="if(window.PRAKASH_PHOTOS)this.src=window.PRAKASH_PHOTOS.photo1">
+                    </div>
+                    <div class="gameover-hero-text">
+                        <div class="hero-name-big">PRAKASH</div>
+                        <div class="hero-sub" id="gameover-hero-comment">Awesome Cyber Run!</div>
+                    </div>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <span class="stat-label">FINAL SCORE</span>
+                        <span id="go-score" class="stat-value neon-cyan">0</span>
+                    </div>
+                    <div class="stat-box" id="go-hs-box">
+                        <span class="stat-label">HIGH SCORE</span>
+                        <span id="go-high-score" class="stat-value neon-gold">0</span>
+                        <span id="go-new-record" class="record-tag hidden">NEW RECORD! 🔥</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-label">DIAMONDS COLLECTED</span>
+                        <span id="go-diamonds" class="stat-value neon-purple">0</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-label">DISTANCE</span>
+                        <span id="go-distance" class="stat-value">0m</span>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="modal-buttons">
+                    <button id="btn-replay" class="btn-cyber btn-primary">
+                        <span class="btn-icon">🔄</span>
+                        <span>PLAY AGAIN</span>
+                    </button>
+                    <button id="btn-menu-go" class="btn-cyber btn-secondary">
+                        <span>🏠 MAIN MENU</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= HOW TO PLAY MODAL ================= -->
+        <div id="instructions-modal" class="screen modal hidden">
+            <div class="modal-box instructions-box">
+                <div class="cyber-corner tl"></div>
+                <div class="cyber-corner tr"></div>
+                <div class="cyber-corner bl"></div>
+                <div class="cyber-corner br"></div>
+
+                <h2 class="modal-title">HOW TO PLAY</h2>
+                <div class="instructions-content">
+                    
+                    <!-- Desktop Controls -->
+                    <div class="instr-section">
+                        <h3>🖥️ DESKTOP CONTROLS</h3>
+                        <div class="keys-grid">
+                            <div class="key-item"><kbd>◀</kbd> or <kbd>A</kbd> <span>Move Left</span></div>
+                            <div class="key-item"><kbd>▶</kbd> or <kbd>D</kbd> <span>Move Right</span></div>
+                            <div class="key-item"><kbd>SPACE</kbd> or <kbd>▲</kbd> / <kbd>W</kbd> <span>Jump</span></div>
+                            <div class="key-item"><kbd>▼</kbd> or <kbd>S</kbd> <span>Roll / Slide Down</span></div>
+                            <div class="key-item"><kbd>ESC</kbd> or <kbd>P</kbd> <span>Pause Game</span></div>
+                        </div>
+                    </div>
+
+                    <!-- Mobile Controls -->
+                    <div class="instr-section">
+                        <h3>📱 MOBILE CONTROLS</h3>
+                        <p class="instr-p">Swipe <kbd>◀</kbd> Left / <kbd>▶</kbd> Right to switch lanes, Swipe <kbd>▲</kbd> Up to Jump, or use the on-screen touch buttons at the bottom of the screen.</p>
+                    </div>
+
+                    <!-- Objectives & Items -->
+                    <div class="instr-section">
+                        <h3>💎 OBJECTIVES & POWER-UPS</h3>
+                        <div class="items-legend">
+                            <div class="legend-item">
+                                <span class="item-icon">💎</span>
+                                <div><strong>Glowing Diamonds:</strong> Worth 10 points each. Collect as many as you can!</div>
+                            </div>
+                            <div class="legend-item">
+                                <span class="item-icon">🧲</span>
+                                <div><strong>Cyber Magnet:</strong> Automatically attracts all nearby diamonds for 10 seconds!</div>
+                            </div>
+                            <div class="legend-item">
+                                <span class="item-icon">🛡️</span>
+                                <div><strong>Energy Shield:</strong> Shields Prakash against one obstacle crash!</div>
+                            </div>
+                            <div class="legend-item">
+                                <span class="item-icon">⚡</span>
+                                <div><strong>Hyper Nitro:</strong> Invincible speed boost that blasts through obstacles!</div>
+                            </div>
+                            <div class="legend-item">
+                                <span class="item-icon">⚠️</span>
+                                <div><strong>Obstacles:</strong> Jump over low laser barriers or dodge tall energy monoliths!</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <button id="btn-close-instructions" class="btn-cyber btn-primary">
+                    <span>GOT IT, LET'S PLAY!</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- ================= MOBILE TOUCH CONTROLS ================= -->
+        <div id="mobile-controls" class="mobile-controls-layer">
+            <button id="touch-left" class="touch-btn" aria-label="Move Left">
+                <span>◀</span>
+            </button>
+            <button id="touch-jump" class="touch-btn touch-btn-jump" aria-label="Jump">
+                <span>▲ JUMP</span>
+            </button>
+            <button id="touch-right" class="touch-btn" aria-label="Move Right">
+                <span>▶</span>
+            </button>
+        </div>
+
+    </div>
+
+    <!-- Scripts: Photos data fallback, Three.js (CDN + local fallback), and Main Game Engine -->
+    <script src="assets/photos.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        // Fallback to local copy if CDN fails
+        if (typeof THREE === 'undefined') {
+            document.write('<script src="assets/three.min.js"><\/script>');
+        }
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>
